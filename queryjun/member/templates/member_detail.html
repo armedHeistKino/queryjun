@@ -1,0 +1,32 @@
+<html>
+    <body>
+        <h1><a href="{% url 'main:main' %}">QueryJun</a></h1>
+        {% if user.is_authenticated %}
+        <p><a href="{% url 'member:member-detail' %}">account</a></p>
+        {% endif %}
+        <h1>Member detail</h1>
+        <hr>
+        <h3>{{ member.nickname }}</h1>
+        <h4>@{{ member.username }}</h2>
+        <h4>{{ member.self_introduce }}</h2>
+        <h4>{{ member.date_joined }}</h2>
+        <br>
+        <h2>Solved questions</h2>
+        {% if solved_question %}
+        <table>
+            <tr>
+                <th scope="col">번호</th>
+                <th scope="col">제목</th>
+            </tr>
+            {% for q in solved_question %}
+                <tr>
+                    <th>{{ q.id }}</th>
+                    <th><a href="{% url 'question:question-detail' q.id %}">{{ q.title }}</a></th>
+                </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+        <h2><a href="{% url 'member:guess-history' member.id %}">Guessing history</a></h2>
+        
+    </body>
+</html>

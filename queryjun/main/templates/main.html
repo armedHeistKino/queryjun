@@ -1,0 +1,53 @@
+<html>
+    <head>
+
+    </head>
+    <body>
+        <h1><a href="{% url 'main:main' %}">QueryJun</a></h1>
+        {% if user.is_authenticated %}
+        <p><a href="{% url 'member:member-detail' %}">account</a></p>
+        {% endif %}
+        <hr>
+        {% if member.is_authenticated %}
+            <h4>Welcome, {{ member.nickname }}.</h4>
+            <form action="{% url 'member:sign-out' %}">
+                <button>sign out</button>
+            </form>
+        {% else %}
+            <form action="{% url 'member:sign-in' %}" method="get">
+                <button>sign in</button>
+            </form>
+            <form action="{% url 'member:sign-up' %}" method="get">
+                <button>sign up</button>
+            </form>
+        {% endif %}
+        
+        <h2>문제</h2>
+
+        <table>
+            <tr>
+                <th>번호</th>
+                <th>문제</th>
+            </tr>
+            {% for q in questions %}
+            <tr>
+                <th>{{ q.id }}</th>
+                <th><a href="{% url 'question:question-detail' q.id %}">{{ q.title }}</a></th>
+            </tr>
+            {% endfor %}
+        </table>
+
+        {% if questions.has_previous %}
+            <a href="?page={{ questions.previous_page_number }}">prev</a>
+        {% endif %}
+        
+        {% for q in questions.paginator.page_range %}
+            <a href="?page={{q}}">{{q}}</a>
+        {% endfor %}
+
+            <span>{{ questions.number }}</span>
+        {% if questions.has_next %}
+            <a href="?page={{ questions.next_page_number }}">next</a>
+        {% endif %}
+    </body>
+</html>

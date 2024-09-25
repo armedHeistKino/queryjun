@@ -1,0 +1,28 @@
+<html>
+    <body>
+        <h1><a href="{% url 'main:main' %}">QueryJun</a></h1>
+        {% if user.is_authenticated %}
+        <p><a href="{% url 'member:member-detail' %}">account</a></p>
+        {% endif %}
+        <h1>Guess history</h1>
+        <hr>
+        <table>
+            <tr>
+                <th>제출 번호</th>
+                <th>제출 시간</th>
+                <th>문제</th>
+                <th>질의 실행시간 (ms)</th>
+                <th>결과</th>
+            </tr>
+            {% for gr in guess_result %}
+            <tr>
+                <th>{{ gr.guess.id }}</th>
+                <th>{{ gr.guess.submit_datetime }}</th>
+                <th><a href="{% url 'question:question-detail' gr.guess.question.id %}">{{ gr.guess.question.title }}</a></th>
+                <th>{{ gr.total_execution_time }}</th>
+                <th>{{ gr.result.result_acronym }}</th>
+            </tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>

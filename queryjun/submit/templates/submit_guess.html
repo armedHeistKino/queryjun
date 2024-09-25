@@ -1,0 +1,14 @@
+<html>
+    <body>
+        <h1><a href="{% url 'main:main' %}">QueryJun</a></h1>
+        <p><a href="{% url 'member:member-detail' %}">account</a></p>
+        <h1>답안 입력</h1>
+        <br>
+        <form action="{% url 'submit:submit-guess' question_id %}" method="post">
+            {% csrf_token %}
+            {% include "form_errors.html" %}
+            <textarea {% if not user.is_authenticated %} disabled {% endif %} name="query_guess" id="query_guess" row="1"></textarea>
+            <input {% if not user.is_authenticated %} disabled {% endif %} type="submit" value="submit">
+        </form>
+    </body>
+</html>

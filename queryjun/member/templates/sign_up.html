@@ -1,0 +1,27 @@
+<html>
+    <body>
+        <h1><a href="{% url 'main:main' %}">QueryJun</a></h1>
+        <h1>Sign up</h1>
+        <hr>
+        <form action="{% url 'member:sign-up' %}" method="post">
+            {% csrf_token %}
+            {% include "form_errors.html" %}
+            <label for="username">username</label>
+            <textarea id="username" name="username" row="1"></textarea>
+            <br>
+            <label for="password">password</label>
+            <input id="password" name="password" type="password"></input>
+            <br>
+            <label for="password-confirm">password confirm</label>
+            <input id="password-confirm" name="password_confirm" type="password"></input>
+            <br>
+            <label for="nickname">nickname</label>
+            <textarea id="nickname" name="nickname" row="1"></textarea>
+            <br>
+            <label for="self-introduce">self introduce</label>
+            <textarea id="self-introduce" name="self_introduce" row="2"></textarea>
+            <br>
+            <input type="submit" value="sign up">
+        </form>
+    </body>
+</html>

@@ -1,0 +1,21 @@
+<html>
+    <body>
+        <h1><a href="{% url 'main:main' %}">QueryJun</a></h1>
+        {% if user.is_authenticated %}
+        <p><a href="{% url 'member:member-detail' %}">account</a></p>
+        {% endif %}
+        <h1>{{ question.id }} </h1>
+        <h2>{{ question.title }}</h1>
+        {% if is_solved %}
+            <h4>CLEARED!</h4>
+        {% endif %}
+        <hr>
+        <p>{{ question.explaination }}</p>
+        
+        <h1>제출</h1>
+        <form action="{% url 'question:submit-redirect' question.id %}" post="get">
+            {% csrf_token %}
+            <button>submit</button>
+        </form>
+    </body>
+</html>

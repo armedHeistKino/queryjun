@@ -1,0 +1,25 @@
+<html>
+    <body>
+        <h1><a href="{% url 'main:main' %}">QueryJun</a></h1>
+        <h1>Sign in</h1>
+        <hr>
+        {% if not user.is_authenticated %}
+        <form action="{% url 'member:sign-in' %}" method="post">
+            {% csrf_token %}
+            {% include "form_errors.html" %}
+            <label for="login_name">username</label>
+            <input type="text" name="username" id="username"></input>
+            <br>
+            <label for="password">password</label>
+            <input type="password" name="password" id="password"></input>
+            <br>
+            <input type="submit" value="sign in">
+        </form>
+        {% else %}
+        <form action="{% url 'member:sign-out' %}">
+            {% csrf_token %}
+            <button>sign out</button>
+        </form>
+        {% endif %}
+    </body>
+</html>
