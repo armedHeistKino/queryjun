@@ -1,4 +1,7 @@
 <html>
+    <head>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    </head>
     <body>
         <h1><a href="{% url 'main:main' %}">QueryJun</a></h1>
         {% if user.is_authenticated %}
@@ -7,7 +10,7 @@
         <h1>제출 결과</h1>
         <hr>
         <h2>{{ guess.guery_guessed }}</h2>
-        <table>
+        <table id="guess-result-table" guess-id="{{ guess.id }}">
             <tr>
                 <th>제출 번호</th>
                 <th>제출 시간</th>
@@ -19,9 +22,45 @@
                 <th>{{ guess.id }}</th>
                 <th>{{ guess.submit_datetime }}</th>
                 <th><a href="{% url 'question:question-detail' question.id %}">{{ question.title }}</a></th>
-                <th>{{ guess_result.total_execution_time }}</th>
-                <th>{{ guess_result.result.result_acronym }}</th>
+                <th id="total_exeucution_time">{{ guess_result.total_execution_time }}</th>
+                <th id="result-result_acronym">{{ guess_result.result.result_acronym }}</th>
             </tr>
         </table>
+
+        <script>
+            $(document).ready(function() {
+                var interval_id = null;
+                
+                function request_result() {
+                    var th_content = $('#total_exeucution_time').text().trim();
+                    var guess_id = document.getElementById('guess-result-table').getAttribute('guess-id');
+
+                    if (th_content !== "") { 
+                        clearInterval(interval_id);
+                        return; 
+                    }
+
+                    $.ajax({
+                        url: '/mark/result/' + guess_id + '/',
+                        type: 'GET',
+                        success: function(response) {
+                            var guess_result = response;
+                            
+                            if (guess_result && guess_result.result !== null) {
+                                $('#total_exeucution_time').text(guess_result.total_execution_time);
+                                $('#result-result_acronym').text(guess_result.result.result_acronym);
+
+                                clearInterval(interval_id);
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error("request failed: ", error); 
+                        }
+                    })
+                }
+
+                interval_id = setInterval(request_result, 1000);
+            }); 
+        </script>
     </body>
 </html>
