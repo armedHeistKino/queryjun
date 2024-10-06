@@ -1,18 +1,19 @@
 from django import views
 from django.http import HttpRequest
-from django.shortcuts import redirect, resolve_url
+from django.shortcuts import redirect, resolve_url, render
+from asgiref.sync import sync_to_async
+
+from ...member.models import Member
 
 from ...submit.models import Guess
-from ..models import ResultType
-
-from .database_fetcher import PostgresqlFetcher
-from .marking import Marking
+from .marking_service import DefaultMarkingService
+from .database_fetcher import DatabaseFetcher, PostgresqlFetcher
 
 class MarkGuessView(views.View):
     """
         A CBV for marking gussed query and displaying guess result page
     """
-    def get(self, request: HttpRequest, *args, **kwargs):
+    async def get(self, request: HttpRequest, *args, **kwargs):
         """
             Returns guess-result page
 
@@ -20,10 +21,17 @@ class MarkGuessView(views.View):
             :param *args:
             :param **kwargs: 
         """
-        guess = Guess.objects.get(id=kwargs['guess_id'])
-        guess_result = Marking(guess, PostgresqlFetcher()).mark()
+        guess = await Guess.objects.aget(id=kwargs['guess_id'])
+        await self._request_mark(request.user, Guess.objects.get(id=kwargs['guess_id']), PostgresqlFetcher())
 
-        if guess_result.result == ResultType.objects.filter(result_acronym='CLR').first():
-            request.user.solved_question.add(guess.question)
+        context = {
+            'guess_id': guess.id,
+            'guess': guess, 
+            'question': guess.question,
+        }
 
-        return redirect(resolve_url('mark:guess-result', guess_result_id=guess_result.id))
+        return await sync_to_async(render)(request, '../templates/guess_result.html', context)
+    
+    async def _request_mark(self, member: Member, guess: Guess, db_fetcher: DatabaseFetcher):
+        marking_service = DefaultMarkingService(member, guess, db_fetcher)
+        marking_service.mark()
