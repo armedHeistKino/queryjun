@@ -1,8 +1,12 @@
 from django import views
-from django.http import HttpRequest
+from django.http import HttpRequest, JsonResponse
 from django.shortcuts import render
 
 from ..models import GuessResult
+
+from .marking_service import DefaultMarkingService
+from .database_fetcher import PostgresqlFetcher
+from ...submit.models import Guess
 
 class GuessResultView(views.View):
     """
@@ -16,12 +20,14 @@ class GuessResultView(views.View):
             :param *args:
             :param **kwargs:
         """
-        result = GuessResult.objects.filter(id=kwargs['guess_result_id']).first()
-        
+
+        guess_result = GuessResult.objects.get(guess_id=self.kwargs['guess_id'])
+
         context = {
-            'guess': result.guess,
-            'guess_result': result,
-            'question': result.guess.question
+            'total_execution_time': guess_result.total_execution_time,
+            'result': {
+                'result_acronym': guess_result.result.result_acronym
+            }
         }
 
-        return render(request, '../templates/guess_result.html', context)
+        return JsonResponse(data=context)
