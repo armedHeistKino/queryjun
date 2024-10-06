@@ -7,5 +7,5 @@ app_name = 'mark'
 
 urlpatterns = [
     path('<int:guess_id>/', MarkGuessView.as_view(), name='mark-guess'),
-    path('result/<int:guess_result_id>/', GuessResultView.as_view(), name='guess-result')
+    path('result/<int:guess_id>/', GuessResultView.as_view(), name='guess-result'),
 ]
