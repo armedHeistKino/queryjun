@@ -19,3 +19,11 @@ class GuessResult(models.Model):
 
     def __str__(self):
         return f'({self.total_execution_time}, {str(self.result)}, {str(self.guess)})'
+    
+class GuessResultError(models.Model):
+    exception_message = models.TextField()
+
+    guess_result = models.ForeignKey(GuessResult, on_delete=models.PROTECT)
+    
+    def __str__(self):
+        return f'({self.exception_message}, {str(self.guess_result)})'
