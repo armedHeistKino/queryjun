@@ -1,13 +1,14 @@
 from django import views
 from django.http import HttpRequest
-from django.shortcuts import redirect, resolve_url, render
+from django.shortcuts import render
 from asgiref.sync import sync_to_async
 
 from ...member.models import Member
-
 from ...submit.models import Guess
+
 from .marking_service import DefaultMarkingService
 from .database_fetcher import DatabaseFetcher, PostgresqlFetcher
+from .comparer import DefaultComparer
 
 class MarkGuessView(views.View):
     """
@@ -22,7 +23,7 @@ class MarkGuessView(views.View):
             :param **kwargs: 
         """
         guess = await Guess.objects.aget(id=kwargs['guess_id'])
-        await self._request_mark(request.user, Guess.objects.get(id=kwargs['guess_id']), PostgresqlFetcher())
+        await self.request_mark(request.user, Guess.objects.get(id=kwargs['guess_id']))
 
         context = {
             'guess_id': guess.id,
@@ -32,6 +33,12 @@ class MarkGuessView(views.View):
 
         return await sync_to_async(render)(request, '../templates/guess_result.html', context)
     
-    async def _request_mark(self, member: Member, guess: Guess, db_fetcher: DatabaseFetcher):
-        marking_service = DefaultMarkingService(member, guess, db_fetcher)
+    async def request_mark(self, member: Member, guess: Guess):
+        """
+            Make a marking request
+        """
+        database_fetcher = PostgresqlFetcher(guess)
+        comparer = DefaultComparer(guess.question, database_fetcher)
+
+        marking_service = DefaultMarkingService(member, guess, database_fetcher, comparer)
         marking_service.mark()

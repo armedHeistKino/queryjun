@@ -1,92 +1,63 @@
-import time
-
 from ..models import GuessResult, ResultType, GuessResultError
 from ...submit.models import Guess
 from ...member.models import Member
 
 from .database_fetcher import DatabaseFetcher
+from .comparer import DefaultComparer
 
 class DefaultMarkingService:
     """
         A service layer for query marking
     """
-    def __init__(self, member: Member, guess: Guess, db_fetcher: DatabaseFetcher):
-        self.member: Member = member
-        self.guess: Guess = guess
-        self.db_fetcher: DatabaseFetcher = db_fetcher
+    def __init__(self, member: Member, guess: Guess, database_fetcher: DatabaseFetcher, comparer: DefaultComparer):
+        """
+        :param member:
+        :param guess:
+        :param database_fetcher:
+        :param comparer:
+        """
+        self.member = member
+        self.guess = guess
+        self.database_fetcher = database_fetcher
+        self.comparer = comparer
 
-    def _compare(self) -> bool | Exception:
+    def mark(self) -> None:
         """
-            Compare result from query guess and question answer
-            Return True if same 
+            Practice total action of 'mark'
+                - execute guessing query and fetch the result
+                - decode result 
         """
-        try:
-            guess_result = self.db_fetcher.fetch_query_result(self.guess)
-        except Exception as e:
-            raise e
+        self.database_fetcher.execute_guess()
         
-        answer = self.guess.question.answer
-        return str(guess_result) == answer
-
-    def _execute_guess(self) -> tuple[bool, float] | Exception:
-        """
-            Get the result of comparison & measure query execution time
-        """
-        execute_stamp = time.time()
-        try:
-            is_match = self._compare()
-        except Exception as e:
-            raise e
-        complete_stamp = time.time()
-
-        return is_match, (complete_stamp - execute_stamp) * 1000
-    
-    def _decide_result(self, is_match: bool, execute_time, is_exception_raised: bool=False) -> ResultType:
-        """
-            Decide which result type should be the guess's mark result
-        """
-        execute_limit = self.guess.question.execution_limit_milisecond
-
-        if is_exception_raised: # guess could not be exeucted
-            return ResultType.objects.get(result_acronym='ERR')
-        elif not is_match: # guess did not yield desired result
-            return ResultType.objects.get(result_acronym='FL')
-        elif execute_time > execute_limit: # guess execution surpassed the limit
-            return ResultType.objects.get(result_acronym='OVT')
-        else: # clear
-            return ResultType.objects.get(result_acronym='CLR')
-
-    def mark(self) -> GuessResult | Exception:
-        """
-            Mark query guess
-        """
-        exception_flag = False
-
-        try:
-            is_match, execute_time = self._execute_guess()
-        except Exception as e:
-            exception_flag = True
-            exception_message = e
-
-            is_match, execute_time = False, 0.0
-            is_exception_raised = True
-        else:
-            is_exception_raised = False
-
-        result = self._decide_result(is_match, execute_time, is_exception_raised)
+        result_type = self._decide_result_type()
 
         guess_result = GuessResult(
-            total_execution_time=execute_time,
-            result=result,
-            guess=self.guess,
+            total_execution_time = self.database_fetcher.time(),
+            result=result_type,
+            guess=self.guess
         )
         guess_result.save()
+        
+        if result_type == ResultType.objects.get(result_acronym='CLR'):
+            self.member.solved_question.add(self.guess.question)
 
-        if exception_flag:
+        if self.database_fetcher.has_query_exception():
             GuessResultError(
-                exception_message=exception_message,
+                exception_message=self.database_fetcher.query_exception(),
                 guess_result=guess_result
             ).save()
 
-        if result == ResultType.objects.get(result_acronym='CLR'):
-            self.member.solved_question.add(self.guess.question)
+    def _decide_result_type(self) -> ResultType:
+        """
+            Decide which result type should be the guess's mark result
+        """
+        rto = ResultType.objects
+
+        if self.database_fetcher.has_query_exception():
+            return rto.get(result_acronym='ERR')
+        elif self.database_fetcher.is_query_overtime():
+            return rto.get(result_acronym='OVT')
+        elif not self.comparer.is_match():
+            return rto.get(result_acronym='FL')
+        else:
+            return rto.get(result_acronym='CLR')
