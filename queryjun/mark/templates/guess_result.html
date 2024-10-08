@@ -9,7 +9,7 @@
         {% endif %}
         <h1>제출 결과</h1>
         <hr>
-        <h2>{{ guess.guery_guessed }}</h2>
+        <div id="error-display"></div>
         <table id="guess-result-table" guess-id="{{ guess.id }}">
             <tr>
                 <th>제출 번호</th>
@@ -45,12 +45,18 @@
                         type: 'GET',
                         success: function(response) {
                             var guess_result = response;
+
+                            console.log(response)
                             
                             if (guess_result && guess_result.result !== null) {
                                 $('#total_exeucution_time').text(guess_result.total_execution_time);
                                 $('#result-result_acronym').text(guess_result.result.result_acronym);
 
                                 clearInterval(interval_id);
+                            } 
+                            
+                            if (guess_result.exception_message && guess_result.exception_message !== null) {
+                                $('#error-display').append("<p>" + guess_result.exception_message +"</p>"); 
                             }
                         },
                         error: function(xhr, status, error) {
