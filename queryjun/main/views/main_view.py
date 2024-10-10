@@ -28,10 +28,9 @@ class MainView(views.View):
             :param *args:
             :param **kwargs:
         """
-        context = dict()
-        context['member'] = request.user or None
-
-        paginated_posts = self._paginate_questions(request)
-        context['questions'] = paginated_posts
+        context = {
+            'member': request.user or None,
+            'questions': self._paginate_questions(request)
+        }
         
         return render(request, '../templates/main.html', context)
