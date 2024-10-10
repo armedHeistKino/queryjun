@@ -22,10 +22,9 @@ class QuestionDetailView(TemplateView):
             :param **kwargs:
         """
         qid = self.kwargs['question_id']
-        question = self._get_question(qid)
-
+        
         context = {
-            'question': question,
+            'question': self._get_question(qid),
             'is_solved': self._is_solved(request, qid) if request.user.is_authenticated else False
         }
 
@@ -46,4 +45,4 @@ class QuestionDetailView(TemplateView):
             :param request:
             :param question_id: Question id to determine if it is solved by signed-in member
         """
-        return True if request.user.solved_question.filter(id=question_id).first() else False
+        return True if request.user.solved_question.get(id=question_id) else False
