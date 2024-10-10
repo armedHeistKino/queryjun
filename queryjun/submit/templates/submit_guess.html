@@ -9,8 +9,8 @@
             {% include "form_errors.html" %}
             <label for="database-vendor">Vendor</label>
             <select name="database-vendor" id="database-vendor">
-                {% for vendor in vendor_options %}
-                <option value="{{ vendor.system_name }}">{{ vendor.shwoing_name }}</option>
+                {% for vendor in vendor_option %}
+                <option value="{{ vendor.system_name }}">{{ vendor.showing_name }}</option>
                 {% endfor %}
             </select>
             <br>
