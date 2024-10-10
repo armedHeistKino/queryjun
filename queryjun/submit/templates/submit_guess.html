@@ -7,14 +7,14 @@
         <form action="{% url 'submit:submit-guess' question_id %}" method="post">
             {% csrf_token %}
             {% include "form_errors.html" %}
-            <label for="database-vendor">Vendor</label>
-            <select name="database-vendor" id="database-vendor">
+            <label for="selected_vendor">Vendor</label>
+            <select id="selected_vendor" name="selected_vendor">
                 {% for vendor in vendor_option %}
-                <option value="{{ vendor.system_name }}">{{ vendor.showing_name }}</option>
+                <option value="{{ vendor.id }}" {% if forloop.first %}selected{% endif %}>{{ vendor.showing_name }}</option>
                 {% endfor %}
             </select>
             <br>
-            <textarea {% if not user.is_authenticated %} disabled {% endif %} name="query_guess" id="query_guess" row="1"></textarea>
+            <textarea {% if not user.is_authenticated %} disabled {% endif %} id="query_guess" name="query_guess" row="1"></textarea>
             <input {% if not user.is_authenticated %} disabled {% endif %} type="submit" value="submit">
         </form>
     </body>
