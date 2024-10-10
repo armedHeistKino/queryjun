@@ -80,7 +80,7 @@ tests.py
 Todo.md
 minor_migrator.py
 .vscode
-
+database_configuration.py
 
 # Flask stuff:
 instance/
