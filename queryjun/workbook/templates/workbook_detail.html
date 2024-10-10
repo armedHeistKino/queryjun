@@ -1,0 +1,24 @@
+<html>
+    <body>
+        <h1><a href="{% url 'main:main' %}">QueryJun</a></h1>
+        {% if user.is_authenticated %}
+        <p><a href="{% url 'member:member-detail' %}">account</a></p>
+        {% endif %}
+        <h1>Workbook detail</h1>
+        <hr>
+        <h1>{{ workbook.title }}</h1>
+        <p>{{ workbook.explaination }}</p>
+        <table>
+            <tr>
+                <th>문제 번호</th>
+                <th>문제 제목</th>
+            </tr>
+            {% for question in workbook.included_question %}
+            <tr>
+                <th>{{ question.id }}</th>
+                <th><a href="{% url 'question:question-detail' question.id %}">{{ question.title }}</a></th>
+            </tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>

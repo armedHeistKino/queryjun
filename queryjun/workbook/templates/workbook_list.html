@@ -1,0 +1,22 @@
+<html>
+    <body>
+        <h1><a href="{% url 'main:main' %}">QueryJun</a></h1>
+        {% if user.is_authenticated %}
+        <p><a href="{% url 'member:member-detail' %}">account</a></p>
+        {% endif %}
+        <h1>Workbook list</h1>
+        <hr>
+        <table>
+            <tr>
+                <th>워크북 번호</th>
+                <th>워크북 제목</th>
+            </tr>
+            {% for workbook in created_workbook %}
+                <tr>
+                    <th>{{ workbook.id }}</th>
+                    <th><a href="{% url 'workbook:workbook-detail' workbook.id %}">{{ workbook.title }}</a></th>
+                </tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>
