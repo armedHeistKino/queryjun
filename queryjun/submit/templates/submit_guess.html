@@ -7,6 +7,13 @@
         <form action="{% url 'submit:submit-guess' question_id %}" method="post">
             {% csrf_token %}
             {% include "form_errors.html" %}
+            <label for="database-vendor">Vendor</label>
+            <select name="database-vendor" id="database-vendor">
+                {% for vendor in vendor_options %}
+                <option value="{{ vendor.system_name }}">{{ vendor.shwoing_name }}</option>
+                {% endfor %}
+            </select>
+            <br>
             <textarea {% if not user.is_authenticated %} disabled {% endif %} name="query_guess" id="query_guess" row="1"></textarea>
             <input {% if not user.is_authenticated %} disabled {% endif %} type="submit" value="submit">
         </form>
