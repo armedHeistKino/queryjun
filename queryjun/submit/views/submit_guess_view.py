@@ -4,8 +4,7 @@ from django.utils import timezone
 from django.shortcuts import resolve_url, render, redirect
 
 from ..forms import GuessSubmitForm
-from ..models import Guess
-
+from ..models import Guess, VendorOption
 from ...question.models import Question
 
 class SubmitGuessView(views.View):
@@ -20,7 +19,11 @@ class SubmitGuessView(views.View):
             :param *args:
             :param **kwargs:
         """
-        context = { 'question_id': kwargs['question_id'] }
+        context = { 
+            'question_id': kwargs['question_id'], 
+            'vendor_option': VendorOption.objects.all()
+        }
+
         return render(request, '../templates/submit_guess.html', context)
     
     def post(self, request: HttpRequest, *args, **kwargs):
@@ -34,16 +37,19 @@ class SubmitGuessView(views.View):
         form = GuessSubmitForm(request.POST)
 
         if not form.is_valid():
-            return render(request, '../templates/submit_guess.html', { 'form': form })
+            context = {
+                'form': form,
+                'question_id': kwargs['question_id'],
+                'vendor_option': VendorOption.objects.all()
+            }
+            return render(request, '../templates/submit_guess.html', context)
         
-        submitter = request.user
-        question = Question.objects.get(id=kwargs['question_id'])
-
         guess = Guess(
             query_guessed=form.cleaned_data.get('query_guess'),
             submit_datetime=timezone.now(),
-            submitter=submitter,
-            question=question
+            selected_vendor=VendorOption.objects.get(id=form.cleaned_data.get('selected_vendor')),
+            submitter=request.user,
+            question=Question.objects.get(id=kwargs['question_id'])
         )
         guess.save()
 
