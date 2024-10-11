@@ -1,5 +1,3 @@
-from functools import partial
-
 from django.db import models
 
 from ..question.models import Question
