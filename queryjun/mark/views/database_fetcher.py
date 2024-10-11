@@ -103,3 +103,9 @@ class PostgresqlFetcher(DatabaseFetcher):
     
     def query_exception(self): 
         return str(self.exception)
+    
+    def is_query_overtime(self):
+        """
+            Temporal constant
+        """
+        return False
