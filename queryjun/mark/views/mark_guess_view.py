@@ -7,10 +7,10 @@ from ...member.models import Member
 from ...submit.models import Guess
 
 from .marking_service import DefaultMarkingService
-from .database_fetcher import DatabaseFetcher, PostgresqlFetcher
+from .fetcher_vendor_determiner_mixin import FetcherVendorDeterminerMixin
 from .comparer import DefaultComparer
 
-class MarkGuessView(views.View):
+class MarkGuessView(FetcherVendorDeterminerMixin, views.View):
     """
         A CBV for marking gussed query and displaying guess result page
     """
@@ -37,7 +37,7 @@ class MarkGuessView(views.View):
         """
             Make a marking request
         """
-        database_fetcher = PostgresqlFetcher(guess)
+        database_fetcher = self.determine_vendor(guess)
         comparer = DefaultComparer(guess.question, database_fetcher)
 
         marking_service = DefaultMarkingService(member, guess, database_fetcher, comparer)
