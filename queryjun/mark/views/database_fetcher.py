@@ -108,4 +108,4 @@ class PostgresqlFetcher(DatabaseFetcher):
         """
             Temporal constant
         """
-        return False
+        return self.fetch_time > self.guess.question.execution_limit_milisecond
