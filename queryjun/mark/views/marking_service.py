@@ -56,7 +56,7 @@ class DefaultMarkingService:
         if self.database_fetcher.has_query_exception():
             return rto.get(result_acronym='ERR')
         elif self.database_fetcher.is_query_overtime():
-            return rto.get(result_acronym='OVT')
+            return rto.get(result_acronym='OVTM')
         elif not self.comparer.is_match():
             return rto.get(result_acronym='FL')
         else:
