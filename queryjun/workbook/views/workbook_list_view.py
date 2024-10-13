@@ -4,22 +4,15 @@ from django.shortcuts import render
 
 from ..models import Workbook
 
-class WorkbookListView(views.View):
+from .workbook_paginate_mixin import WorkbookPaginateMixin
+
+class WorkbookListView(WorkbookPaginateMixin, views.View):
     def get(self, request, *args, **kwargs):
         """
         
         """
         context = {
-            'created_workbook': self._pagenate_workbook(request, *args, **kwargs)
+            'paginated_workbook': self.paginate_workbook(page=kwargs['page'], total_per_page=10, latest=False)
         }
 
         return render(request, '../templates/workbook_list.html', context)
-    
-    def _pagenate_workbook(self, request, *args, **kwargs) -> Paginator:
-        """
-
-        """
-        paginator = Paginator(Workbook.objects.all().order_by('id'), 10)
-        post = paginator.get_page(request.GET.get('page'))
-
-        return post
