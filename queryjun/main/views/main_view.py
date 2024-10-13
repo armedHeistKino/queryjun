@@ -1,25 +1,13 @@
 from django import views
-from django.core.paginator import Paginator
 from django.http import HttpRequest
 from django.shortcuts import render
 
-from ...question.models import Question
+from ...question.views.question_paginate_mixin import QuesitionPaginateMixin
 
-class MainView(views.View):
+class MainView(QuesitionPaginateMixin, views.View):
     """
         A CBV for displaying main page
     """
-    def _paginate_questions(self, request: HttpRequest) -> Paginator:
-        """
-            Return a paginator for question list from request
-
-            :param request:
-        """
-        paginator = Paginator(Question.objects.all().order_by('id'), 10)
-        post = paginator.get_page(request.GET.get('page'))
-
-        return post
-    
     def get(self, request: HttpRequest, *args, **kwargs):
         """
             Returns main page
@@ -30,7 +18,7 @@ class MainView(views.View):
         """
         context = {
             'member': request.user or None,
-            'questions': self._paginate_questions(request)
+            'paginated_question': self.paginate_question(request, 5)
         }
         
         return render(request, '../templates/main.html', context)
