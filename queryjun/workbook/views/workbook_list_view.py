@@ -12,7 +12,7 @@ class WorkbookListView(WorkbookPaginateMixin, views.View):
         
         """
         context = {
-            'paginated_workbook': self.paginate_workbook(page=kwargs['page'], total_per_page=10, latest=False)
+            'paginated_workbook': self.paginate_workbook(page=int(request.GET.get('p', 1)), total_per_page=10, latest=False)
         }
 
         return render(request, '../templates/workbook_list.html', context)
