@@ -1,22 +1,52 @@
 <html>
+    {% include 'head.html' %}
     <body>
-        <h1><a href="{% url 'main:main' %}">QueryJun</a></h1>
-        {% if user.is_authenticated %}
-        <p><a href="{% url 'member:member-detail' %}">account</a></p>
-        {% endif %}
-        <h1>Workbook list</h1>
-        <hr>
-        <table>
-            <tr>
-                <th>워크북 번호</th>
-                <th>워크북 제목</th>
-            </tr>
-            {% for workbook in created_workbook %}
-                <tr>
-                    <th>{{ workbook.id }}</th>
-                    <th><a href="{% url 'workbook:workbook-detail' workbook.id %}">{{ workbook.title }}</a></th>
-                </tr>
+        {% include 'nav_bar_head.html' %}
+        <div class="container-fluid" style="height:50vh; min-height:500px;">
+            <div class="container" id="search-option-bar"></div>
+            <div class="container" id="question-table">
+            {% for workbook in paginated_workbook %}
+            <div class="list-group">
+                <a class="list-group-item list-group-item-aciton" href="{% url 'workbook:workbook-detail' workbook.id %}">{{ workbook.title }}</a>
+            </div>
             {% endfor %}
-        </table>
+            </div>
+            <div class="container" id="string-search"></div>
+            <div class="container"></div>
+        </div>
+        <div class="container-fluid bg-body-tertiary">
+            <div class="container" id="featured-workbook-area">
+                <p class="fs-3">Featured workbook</p>
+                <div>
+                    <div id="first-start-workbook">
+                        <p class="fs-5">첫 시작을 위한 문제집</p>
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-body">
+                              <h5 class="card-title">Card title</h5>
+                              <h6 class="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>
+                              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                              <a href="#" class="card-link">Card link</a>
+                              <a href="#" class="card-link">Another link</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div id="intermediate-workbook">
+                    <p class="fs-5">조인 쓰기</p>
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                          <h5 class="card-title">Card title</h5>
+                          <h6 class="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>
+                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                          <a href="#" class="card-link">Card link</a>
+                          <a href="#" class="card-link">Another link</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="container-fluid" style="margin:0;">
+        {% include 'nav_bar_foot.html' %}
     </body>
 </html>
