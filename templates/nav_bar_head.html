@@ -1,24 +1,24 @@
 <nav class="container-fluid navbar navbar-expand-lg nav-tabs bg-body-tertiary">
-  <div class="container">
-      <a class="navbar-brand" href="{% url 'main:main' %}">Queryjun</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-              <li class="nav-item">
-                  <a class="nav-link" href="{% url 'question:question-list' %}">문제</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="{% url 'workbook:workbook-list' %}">문제집</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="">고지</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="{% url 'member:member-detail' %}">계정</a>
-              </li>
-          </ul>
-      </div>
-  </div>
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'main:main' %}">Queryjun</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'question:question-list' %}">문제</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'workbook:workbook-list' %}">문제집</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">고지</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'member:member-detail' %}">계정</a>
+                </li>
+            </ul>
+        </div>
+    </div>
 </nav>
