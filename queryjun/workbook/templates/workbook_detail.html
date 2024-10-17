@@ -1,13 +1,17 @@
 <html>
+    {% include 'head.html' %}
     <body>
-        <h1><a href="{% url 'main:main' %}">QueryJun</a></h1>
-        {% if user.is_authenticated %}
-        <p><a href="{% url 'member:member-detail' %}">account</a></p>
-        {% endif %}
-        <h1>Workbook detail</h1>
-        <hr>
-        <h1>{{ workbook.title }}</h1>
-        <p>{{ workbook.explaination }}</p>
+        {% include 'nav_bar_head.html' %}
+
+        <div class="container-fluid">
+            <div class="container">
+                <div class="title-detail-area">
+                    <p class="fs-1">{{ workbook.title }}</p>
+                    <p class="fs-6">{{ workbook.explaination }}</p>
+                </div>
+            </div>
+        </div>
+        
         <table>
             <tr>
                 <th>문제 번호</th>
@@ -20,5 +24,7 @@
             </tr>
             {% endfor %}
         </table>
+
+        {% include 'nav_bar_foot.html' %}
     </body>
 </html>
