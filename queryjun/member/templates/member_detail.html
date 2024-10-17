@@ -1,32 +1,39 @@
 <html>
+    {% include 'head.html' %}
     <body>
-        <h1><a href="{% url 'main:main' %}">QueryJun</a></h1>
-        {% if user.is_authenticated %}
-        <p><a href="{% url 'member:member-detail' %}">account</a></p>
-        {% endif %}
-        <h1>Member detail</h1>
-        <hr>
-        <h3>{{ member.nickname }}</h1>
-        <h4>@{{ member.username }}</h2>
-        <h4>{{ member.self_introduce }}</h2>
-        <h4>{{ member.date_joined }}</h2>
-        <br>
-        <h2>Solved questions</h2>
-        {% if solved_question %}
-        <table>
-            <tr>
-                <th scope="col">번호</th>
-                <th scope="col">제목</th>
-            </tr>
-            {% for q in solved_question %}
-                <tr>
-                    <th>{{ q.id }}</th>
-                    <th><a href="{% url 'question:question-detail' q.id %}">{{ q.title }}</a></th>
-                </tr>
-            {% endfor %}
-        </table>
-        {% endif %}
-        <h2><a href="{% url 'member:guess-history' member.id %}">Guessing history</a></h2>
-        
+        {% include 'nav_bar_head.html' %}
+        <div class="container-fluid" id="member-detail-area" style="height:80vh; min-height:700px;">
+            <div class="container" id="member-detail-name-area">
+                <p class="fs-1" style="display: inline;">{{ member.nickname }}</p>
+                <p class="fs-3 fw-lighter text-body-tertiary" style="display: inline;">@{{ member.username }}</p>
+                <p class="fs-6">{{ member.self_introduce }}</p>
+            </div>
+            <div class="container" id="member-detail-info-area">
+                <nav>
+                    <div class="nav nav-tabs" id="member-detail=tab" role="tablist">
+                        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#nav-solved-question" type="button" role="tab" aria-controls="nav-solved-question" aria-selected="true">푼 문제</button>
+                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#nav-guessing-history" type="button" role="tab" aria-controls="nav-guessing-history" aria-selected="false">제출 기록</button>
+                    </div>
+                </nav>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="nav-solved-question" role="tabpanel" aria-labelledby="nav-solved-question" tabindex="0">
+                        <div class="container" id="solved-question-table">
+                            <br>
+                            {% for question in solved_question %}
+                                <a href="{% url 'question:question-detail' question.id %}"><p class="badge fs-6 text-bg-secondary">{{ question.id }} {{ question.title }}</p></a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="nav-guessing-history" role="tabpanel" aria-labelledby="nav-guessing-history" tabindex="0">
+                        <div class="container" id="guessing-history-table">
+                            <br>
+                            <p class="fs-6">최근 20개분만 표시됩니다. </p>
+                            <button class="btn" href="{% url 'member:guess-history' member.id %}">더보기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include 'nav_bar_foot.html' %}
     </body>
 </html>
