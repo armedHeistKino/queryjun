@@ -1,0 +1,28 @@
+<html>
+    {% include 'head.html' %}
+    <body>
+        {% include 'nav_bar_head.html' %}
+        <div class="container-fluid" style="height:80vh; min-height:700px;">
+            <br>
+            <div class="container" id="search-option-bar"></div>
+            <div class="container" id="question-table">
+                <table>
+                    {% for question in paginated_question %}
+                    <div class="list-group">
+                        <a class="list-group-item list-group-item-aciton" href="{% url 'question:question-detail' question.id %}">{{ question.title }}</a>
+                    </div>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="container" id="string-search"></div>
+        </div>
+        <div class="container-fluid bg-body-tertiary position-relative" style="height:15vh; min-height:150px;">
+            <div class="container position-absolute top-50 start-50 translate-middle">
+                <p class="fs-3 text-body-tertiary">어떤 문제를 풀어야 하나요?</p>
+                <p class="fs-6 text-body-tertiary"><a href="{% url 'workbook:workbook-list' %}">문제집</a>은 다양한 문제를 분류별로 묶어 제공하고 있습니다. 한번 구경해보세요. </p>
+            </div>
+        </div>
+        <hr class="container-fluid" style="margin:0;">
+        {% include 'nav_bar_foot.html' %}
+    </body>
+</html>
