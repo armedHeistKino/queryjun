@@ -1,21 +1,30 @@
 <html>
+    {% include 'head.html' %}
     <body>
-        <h1><a href="{% url 'main:main' %}">QueryJun</a></h1>
-        {% if user.is_authenticated %}
-        <p><a href="{% url 'member:member-detail' %}">account</a></p>
-        {% endif %}
-        <h1>{{ question.id }} </h1>
-        <h2>{{ question.title }}</h1>
-        {% if is_solved %}
-            <h4>CLEARED!</h4>
-        {% endif %}
-        <hr>
-        <p>{{ question.explaination }}</p>
+        {% include 'nav_bar_head.html' %}
+
+        <div class="container-fluid" style="height:80vh; min-height:700px;">
+            <div class="container" id="question-title-detail">
+                <div class="question-title-area">
+                    <p class="fs-1" id="question-title">{{ question.title }}
+                    {% if is_solved %}
+                        <span class="badge text-bg-success fs-6">clear</span>
+                    {% endif %}
+                    </p>
+                </div>
+                <hr>
+            </div>
+            <div class="container" id="question-content-detail">
+                <p class="fs-5" id="question-content">{{ question.explaination }}</p>
+            </div>
+        </div>
         
         <h1>제출</h1>
         <form action="{% url 'question:submit-redirect' question.id %}" post="get">
             {% csrf_token %}
             <button>submit</button>
         </form>
+
+        {% include 'nav_bar_foot.html' %}
     </body>
 </html>
