@@ -4,8 +4,17 @@
         {% include 'nav_bar_head.html' %}
         <div class="container-fluid" id="member-detail-area" style="height:80vh; min-height:700px;">
             <div class="container" id="member-detail-name-area">
-                <p class="fs-1" style="display: inline;">{{ member.nickname }}</p>
-                <p class="fs-3 fw-lighter text-body-tertiary" style="display: inline;">@{{ member.username }}</p>
+                <div class="row">
+                    <div class="col">
+                        <p class="fs-1" style="display: inline;">{{ member.nickname }}</p>
+                        <p class="fs-3 fw-lighter text-body-tertiary" style="display: inline;">@{{ member.username }}</p>
+                    </div>
+                    <div class="col position-relative">
+                        <form action="{% url 'member:sign-out' %}" method="GET">
+                            <button class="btn btn-outline-secondary position-absolute top-50 end-0 translate-middle-y">로그아웃</button>
+                        </form>
+                    </div>
+                </div>
                 <p class="fs-6" style="margin-left:20px;">{{ member.self_introduce }}</p>
             </div>
             <div class="container" id="member-detail-info-area">
