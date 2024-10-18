@@ -2,14 +2,17 @@
     {% include 'head.html' %}
     <body>
         {% include 'nav_bar_head.html' %}
-        <div class="container-fluid" style="height:50vh; min-height:500px;">
+        <div class="container-fluid position-relative" style="height:60vh; min-height:600px;">
             <div class="container" id="search-option-bar"></div>
-            <div class="container" id="question-table">
-            {% for workbook in paginated_workbook %}
-            <div class="list-group">
+            <div class="container position-absolute top-50 start-50 translate-middle" id="workbook-table">
+                <div class="list-group">
+                {% for workbook in paginated_workbook %}
                 <a class="list-group-item list-group-item-aciton" href="{% url 'workbook:workbook-detail' workbook.id %}">{{ workbook.title }}</a>
-            </div>
-            {% endfor %}
+                {% endfor %}
+                {% for e in empty %}
+                <span class="list-group-item">&nbsp;</span>
+                {% endfor %}
+                </div>
             </div>
             <div class="container" id="string-search"></div>
             <div class="container"></div>
