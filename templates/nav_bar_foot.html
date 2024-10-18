@@ -1,10 +1,10 @@
-<nav class="navbar bg-body-tertiary" style="height: 300px;">
-    <div class="container">
+<nav class="container-fluid bg-body-tertiary position-relative" style="height: 300px;">
+    <div class="container position-absolute top-50 start-50 translate-middle">
         <div class="row">
             <div class="col">
                 <p class="fs-5 text-body-tertiary">사이트 맵</p>
                 <hr>
-                <ul class="fs-6" style="list-style:none;">
+                <ul class="fs-6" style="list-style:none; padding:0;">
                     <li><a class="text-body-tertiary link-dark link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="{% url 'question:question-list' %}">문제</a></li>
                     <li><a class="text-body-tertiary link-dark link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="{% url 'workbook:workbook-list' %}">문제집</a></li>
                     <li><a class="text-body-tertiary link-dark link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="">고지</a></li>
@@ -13,7 +13,7 @@
             <div class="col">
                 <p class="fs-5 text-body-tertiary">연관 외부 링크</p>
                 <hr>
-                <ul class="fs-6" style="list-style:none;">
+                <ul class="fs-6" style="list-style:none; padding:0;">
                     <li><a class="text-body-tertiary link-dark link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="https://github.com/armedHeistKino/queryjun">Github repository</a></li>
                     <li class="text-body-tertiary">Powered by <a class="text-body-tertiary link-dark link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="">Bootstrap</a></li>
                 </ul>
