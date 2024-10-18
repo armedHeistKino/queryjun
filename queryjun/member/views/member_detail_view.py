@@ -1,6 +1,6 @@
 from django.http import Http404, HttpRequest
 from django.views.generic import TemplateView
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from ..models import Member
 from .specific_member_mixin import SpecificMemberMixin
@@ -19,6 +19,9 @@ class MemberDetailView(SpecificMemberMixin, TemplateView):
             :param *args:
             :param **kwargs:
         """
+        if not request.user.is_authenticated:
+            return redirect('member:sign-in')
+
         try:
             member = self.get_specific_member(request, *args, **kwargs)
         except Member.DoesNotExist:
