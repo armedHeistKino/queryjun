@@ -3,7 +3,7 @@
     <body>
         {% include 'nav_bar_head.html' %}
         <div class="container-fluid" style="height:80vh; min-height:700px;">
-            <div class="container" id="blank-container" style="height:2vh; min-height:20px;"></div>
+            <div class="container blank-area"></div>
             <div class="container" id="question-title-detail">
                 <div class="question-title-area">
                     <p class="fs-1" id="question-title">{{ question.title }}
@@ -12,8 +12,8 @@
                     {% endif %}
                     </p>
                 </div>
-                <hr>
             </div>
+            <hr class="container">
             <div class="container" id="question-content-detail">
                 <p class="fs-5" id="question-content">{{ question.explaination }}</p>
             </div>
@@ -23,7 +23,7 @@
                 <div class="row d-flex">
                     <form action="{% url 'question:submit-redirect' question.id %}" post="get">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-outline-secondary">제출</button>
+                        <button type="submit" class="btn btn-outline-secondary">풀기</button>
                     </form>
                 </div>
             </div>
