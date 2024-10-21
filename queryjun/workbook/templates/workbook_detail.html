@@ -2,29 +2,25 @@
     {% include 'head.html' %}
     <body>
         {% include 'nav_bar_head.html' %}
-
-        <div class="container-fluid">
+        <div class="container-fluid" style="height:80vh; min-height:700px;">
+            <div class="container blank-area"></div>
             <div class="container">
                 <div class="title-detail-area">
                     <p class="fs-1">{{ workbook.title }}</p>
-                    <p class="fs-6">{{ workbook.explaination }}</p>
+                </div>
+            </div>
+            <hr class="container">
+            <div class="container">
+                <p class="fs-6">{{ workbook.explaination }}</p>
+            </div>
+            <div class="container">
+                <div class="list-group">
+                    {% for question in workbook.included_question %}
+                    <a class="list-group-item" href="{% url 'question:question-detail' question.id %}">{{ question.title }}</a>
+                    {% endfor %}
                 </div>
             </div>
         </div>
-        
-        <table>
-            <tr>
-                <th>문제 번호</th>
-                <th>문제 제목</th>
-            </tr>
-            {% for question in workbook.included_question %}
-            <tr>
-                <th>{{ question.id }}</th>
-                <th><a href="{% url 'question:question-detail' question.id %}">{{ question.title }}</a></th>
-            </tr>
-            {% endfor %}
-        </table>
-
         {% include 'nav_bar_foot.html' %}
     </body>
 </html>
