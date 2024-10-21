@@ -2,8 +2,8 @@
     {% include 'head.html' %}
     <body>
         {% include 'nav_bar_head.html' %}
-
         <div class="container-fluid" style="height:80vh; min-height:700px;">
+            <div class="container" id="blank-container" style="height:2vh; min-height:20px;"></div>
             <div class="container" id="question-title-detail">
                 <div class="question-title-area">
                     <p class="fs-1" id="question-title">{{ question.title }}
@@ -18,13 +18,16 @@
                 <p class="fs-5" id="question-content">{{ question.explaination }}</p>
             </div>
         </div>
-        
-        <h1>제출</h1>
-        <form action="{% url 'question:submit-redirect' question.id %}" post="get">
-            {% csrf_token %}
-            <button>submit</button>
-        </form>
-
+        <div class="container-fluid">
+            <div class="container">
+                <div class="row d-flex">
+                    <form action="{% url 'question:submit-redirect' question.id %}" post="get">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-secondary">제출</button>
+                    </form>
+                </div>
+            </div>
+        </div>
         {% include 'nav_bar_foot.html' %}
     </body>
 </html>
