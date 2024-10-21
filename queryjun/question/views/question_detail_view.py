@@ -25,7 +25,8 @@ class QuestionDetailView(TemplateView):
         
         context = {
             'question': self._get_question(qid),
-            'is_solved': self._is_solved(request, qid) if request.user.is_authenticated else False
+            'is_solved': self._is_solved(request, qid) if request.user.is_authenticated else False, 
+            'submit_forbidden': False,
         }
 
         return render(request, self.template_name, context)
