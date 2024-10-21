@@ -1,21 +1,38 @@
 <html>
+    {% include 'head.html' %}
     <body>
-        <h1><a href="{% url 'main:main' %}">QueryJun</a></h1>
-        <p><a href="{% url 'member:member-detail' %}">account</a></p>
-        <h1>답안 입력</h1>
-        <br>
-        <form action="{% url 'submit:submit-guess' question_id %}" method="post">
-            {% csrf_token %}
-            {% include "form_errors.html" %}
-            <label for="selected_vendor">Vendor</label>
-            <select id="selected_vendor" name="selected_vendor">
-                {% for vendor in vendor_option %}
-                <option value="{{ vendor.id }}" {% if forloop.first %}selected{% endif %}>{{ vendor.showing_name }}</option>
-                {% endfor %}
-            </select>
-            <br>
-            <textarea {% if not user.is_authenticated %} disabled {% endif %} id="query_guess" name="query_guess" row="1"></textarea>
-            <input {% if not user.is_authenticated %} disabled {% endif %} type="submit" value="submit">
-        </form>
+        {% include 'nav_bar_head.html' %}
+        <div class="container-fluid">
+            <div class="container blank-area"></div>
+            <div class="container">
+                <p style="font-size: 20px;">문제</p>
+                <hr>
+                <p>{{ question.explaination }}</p>
+            </div>
+            <div class="container blank-area"></div>
+            <div class="container">
+                <p style="font-size: 20px;">풀이</p>
+                <hr>
+                <div id="error-displayer" id="error-display">
+                    {% include "form_errors.html" %}
+                </div>
+            </div>
+            <div class="container">
+                <form action="{% url 'submit:submit-guess' question.id %}" method="post" id="query_guess_form">
+                    {% csrf_token %}
+                    <select class="form-select form-select-sm" id="selected_vendor" name="selected_vendor">
+                        <option selected>DBMS 벤더</option>
+                        {% for vendor in vendor_option %}
+                        <option value="{{ vendor.id }}">{{ vendor.showing_name }}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="blank-area"></div>
+                    <textarea type="text" class="form-control" placeholder="SELECT love FROM your_heart;" name="query_guess"></textarea>
+                    <div class="blank-area"></div>
+                    <button type="submit" class="btn btn-outline-secondary" {% if not user.is_authenticated %}disabled{% endif %}>제출</button>
+                </form>
+            </div>
+        </div>
+        {% include 'nav_bar_foot.html' %}
     </body>
 </html>
