@@ -20,8 +20,8 @@ class SubmitGuessView(views.View):
             :param **kwargs:
         """
         context = { 
-            'question_id': kwargs['question_id'], 
-            'vendor_option': VendorOption.objects.all()
+            'question': Question.objects.get(id=kwargs['question_id']), 
+            'vendor_option': VendorOption.objects.all(),
         }
 
         return render(request, '../templates/submit_guess.html', context)
@@ -36,10 +36,12 @@ class SubmitGuessView(views.View):
         """
         form = GuessSubmitForm(request.POST)
 
+        question = Question.objects.get(id=kwargs['question_id'])
+
         if not form.is_valid():
             context = {
                 'form': form,
-                'question_id': kwargs['question_id'],
+                'question': question,
                 'vendor_option': VendorOption.objects.all()
             }
             return render(request, '../templates/submit_guess.html', context)
@@ -49,7 +51,7 @@ class SubmitGuessView(views.View):
             submit_datetime=timezone.now(),
             selected_vendor=VendorOption.objects.get(id=form.cleaned_data.get('selected_vendor')),
             submitter=request.user,
-            question=Question.objects.get(id=kwargs['question_id'])
+            question=question
         )
         guess.save()
 
