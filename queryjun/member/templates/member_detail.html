@@ -2,7 +2,8 @@
     {% include 'head.html' %}
     <body>
         {% include 'nav_bar_head.html' %}
-        <div class="container-fluid" id="member-detail-area" style="height:80vh; min-height:700px;">
+        <div class="container-fluid" id="member-detail-area" style="height:80vh; min-height:1000px;">
+            <div class="blank-area"></div>
             <div class="container" id="member-detail-name-area">
                 <div class="row">
                     <div class="col">
@@ -37,7 +38,25 @@
                         <div class="container" id="guessing-history-table">
                             <br>
                             <p class="fs-6">최근 20개분만 표시됩니다. </p>
-                            <button class="btn" href="{% url 'member:guess-history' member.id %}">더보기</button>
+                            <table class="table">
+                                <tr>
+                                    <th>제출번호</th>
+                                    <th>제출일자</th>
+                                    <th>문제</th>
+                                    <th>질의실행시간 (ms)</th>
+                                    <th>결과</th>
+                                </tr>
+                                {% for submit in submit_history %}
+                                <tr>
+                                    <th>{{ submit.id }}</th>
+                                    <th>{{ submit.guess.submit_datetime }}</th>
+                                    <th><a href="{% url 'question:question-detail' submit.guess.question.id %}">{{ submit.guess.question.title }}</a></th>
+                                    <th>{{ submit.total_execution_time }}</th>
+                                    <th>{{ submit.result.result_acronym }}</th>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                            <div class="blank-area"></div>
                         </div>
                     </div>
                 </div>
