@@ -5,6 +5,7 @@ from asgiref.sync import sync_to_async
 
 from ...member.models import Member
 from ...submit.models import Guess
+from ...mark.models import GuessResult
 
 from .marking_service import DefaultMarkingService
 from .fetcher_vendor_determiner_mixin import FetcherVendorDeterminerMixin
@@ -37,6 +38,10 @@ class MarkGuessView(FetcherVendorDeterminerMixin, views.View):
         """
             Make a marking request
         """
+
+        # Possible shit storm raiser
+        if GuessResult.objects.filter(guess_id=guess.id): return
+
         database_fetcher = self.determine_vendor(guess)
         comparer = DefaultComparer(guess.question, database_fetcher)
 
