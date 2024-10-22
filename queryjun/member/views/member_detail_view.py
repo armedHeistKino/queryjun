@@ -3,6 +3,7 @@ from django.views.generic import TemplateView
 from django.shortcuts import render, redirect
 
 from ..models import Member
+from ...mark.models import GuessResult
 from .specific_member_mixin import SpecificMemberMixin
 
 class MemberDetailView(SpecificMemberMixin, TemplateView):
@@ -27,10 +28,13 @@ class MemberDetailView(SpecificMemberMixin, TemplateView):
         except Member.DoesNotExist:
             raise Http404('Member does not exist.')
         
+        submit_history = GuessResult.objects.filter(guess__submitter=request.user).select_related('guess').order_by('-id')[:20]
+        
         solved_question = member.solved_question.all()
         context = { 
             'member': member, 
-            'solved_question': solved_question 
+            'solved_question': solved_question,
+            'submit_history': submit_history,
         }
 
         return render(request, '../templates/member_detail.html', context)
