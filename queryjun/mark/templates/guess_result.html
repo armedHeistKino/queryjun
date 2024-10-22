@@ -1,31 +1,42 @@
 <html>
     <head>
+        {% include 'head.html' %}
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     </head>
     <body>
-        <h1><a href="{% url 'main:main' %}">QueryJun</a></h1>
-        {% if user.is_authenticated %}
-        <p><a href="{% url 'member:member-detail' %}">account</a></p>
-        {% endif %}
-        <h1>제출 결과</h1>
-        <hr>
-        <div id="error-display"></div>
-        <table id="guess-result-table" guess-id="{{ guess.id }}">
-            <tr>
-                <th>제출 번호</th>
-                <th>제출 시간</th>
-                <th>문제</th>
-                <th>질의 실행시간 (ms)</th>
-                <th>결과</th>
-            </tr>
-            <tr>
-                <th>{{ guess.id }}</th>
-                <th>{{ guess.submit_datetime }}</th>
-                <th><a href="{% url 'question:question-detail' question.id %}">{{ question.title }}</a></th>
-                <th id="total_exeucution_time">{{ guess_result.total_execution_time }}</th>
-                <th id="result-result_acronym">{{ guess_result.result.result_acronym }}</th>
-            </tr>
-        </table>
+        {% include 'nav_bar_head.html'%}
+
+        <div class="container-fluid">
+            <div class="container blank-area"></div>
+            <div class="container">
+                <p style="font-size: 20px;">결과</p>
+                <hr>
+            </div>
+            <div class="container">
+                <table class="table" id="guess-result-table" guess-id="{{ guess.id }}" style="width: 75vw; min-width:500px;">
+                    <tr>
+                        <th>제출번호</th>
+                        <th>제출시간</th>
+                        <th>문제</th>
+                        <th>질의실행시간 (ms)</th>
+                        <th>결과</th>
+                    </tr>
+                    <tr>
+                        <th>{{ guess.id }}</th>
+                        <th>{{ guess.submit_datetime }}</th>
+                        <th><a href="{% url 'question:question-detail' question.id %}">{{ question.title }}</a></th>
+                        <th id="total_exeucution_time">{{ guess_result.total_execution_time }}</th>
+                        <th id="result-result_acronym">{{ guess_result.result.result_acronym }}</th>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="container-fluid position-relative">
+            <div id="error-display-area" class="position-absolute top-50 start-50 translate-middle" style="width: 50vw;">
+                <div id="error-display-title" class="text-center"></div>
+                <div id="error-display" class="text-center"></div>
+            </div>
+        </div>
 
         <script>
             $(document).ready(function() {
@@ -56,6 +67,9 @@
                             } 
                             
                             if (guess_result.exception_message && guess_result.exception_message !== null) {
+                                $('#error-display-area').attr('class', 'alert alert-danger');
+                                $('#error-display-area').attr('role', 'alert');
+                                $('#error-display-title').append('<p>' + '제출한 질의문이 오류를 일으켰습니다' +'</p>');
                                 $('#error-display').append("<p>" + guess_result.exception_message +"</p>"); 
                             }
                         },
@@ -68,5 +82,6 @@
                 interval_id = setInterval(request_result, 1000);
             }); 
         </script>
+        {% include 'nav_bar_foot.html' %}
     </body>
 </html>
