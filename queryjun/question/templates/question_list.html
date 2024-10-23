@@ -3,8 +3,9 @@
     <body>
         {% include 'nav_bar_head.html' %}
         <div class="container-fluid position-relative" style="height:60vh; min-height:600px;">
+            <div class="blank-area"></div>
             <div class="container" id="search-option-bar"></div>
-            <div class="container position-absolute top-50 start-50 translate-middle" id="question-table">
+            <div class="container" id="question-table">
                 <div class="list-group">
                 {% for question in paginated_question %}
                 <a class="list-group-item list-group-item-aciton" href="{% url 'question:question-detail' question.id %}">{{ question.title }}</a>
@@ -14,7 +15,20 @@
                 {% endfor %}
                 </div>
             </div>
+            <div class="container">
+                <div class="blank-area"></div>
+            </div>
+            <div class="container">
+                <ul class="pagination justify-content-center">
+                    {% for page_number in paginated_question.paginator.page_range %}
+                    <li class="page-item">
+                        <a class="page-link {% if page_number == paginated_question.number %}active{% endif %}" href="?page={{ page_number }}">{{ page_number }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
             <div class="container" id="string-search"></div>
+            <div class="blank-area"></div>
         </div>
         <div class="container-fluid bg-body-tertiary position-relative" style="height:15vh; min-height:150px;">
             <div class="container position-absolute top-50 start-50 translate-middle">
