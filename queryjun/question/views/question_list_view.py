@@ -8,7 +8,7 @@ class QuestionListView(QuesitionPaginateMixin, views.View):
         """
         
         """
-        questions, empty = self.paginate_question_fill_dummy(page=int(request.GET.get('p', 1)), total_per_page=10, latest=True)
+        questions, empty = self.paginate_question_fill_dummy(page=int(request.GET.get('page', 1)), total_per_page=10, latest=True)
 
         context = {
             'paginated_question': questions,
