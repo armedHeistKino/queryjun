@@ -67,14 +67,16 @@
         </div>
         <div class="container-fluid bg-primary-subtle position-relative" style="height: 10vh; min-height:100px;">
             <div class="container position-absolute top-50 start-50 translate-middle">
+                <div class="blank-area"></div>
                 <div class="row text-center">
                     {% for metric in statics %}
                     <div class="col">
-                        <p class="fs-3">{{ metric.title }}</p>
+                        <p class="fs-6" style="font-weight: 600;">{{ metric.title }}</p>
                         <p class="fs-6">{{ metric.value }}</p>
                     </div>
                     {% endfor %}
                 </div>
+                <div class="blank-area"></div>
             </div>
         </div>
         <div class="container-fluid position-relative" style="height: 50vh; min-height:500px;">
