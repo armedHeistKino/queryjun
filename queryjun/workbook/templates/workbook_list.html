@@ -18,6 +18,7 @@
             <div class="container"></div>
         </div>
         <div class="container-fluid bg-body-tertiary">
+            <div class="blank-area"></div>
             <div class="container" id="featured-workbook-area">
                 <p class="fs-3">Featured workbook</p>
                 <div>
@@ -25,29 +26,16 @@
                         <p class="fs-5">첫 시작을 위한 문제집</p>
                         <div class="card" style="width: 18rem;">
                             <div class="card-body">
-                              <h5 class="card-title">Card title</h5>
-                              <h6 class="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>
-                              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                              <a href="#" class="card-link">Card link</a>
-                              <a href="#" class="card-link">Another link</a>
+                              <h5 class="card-title">{{ first_start_workbook.title }}</h5>
+                              <p class="card-text">{{ first_start_workbook.explaination }}</p>
+                              <a href="#" class="btn btn-primary">문제집</a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <br>
-                <div id="intermediate-workbook">
-                    <p class="fs-5">조인 쓰기</p>
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-body">
-                          <h5 class="card-title">Card title</h5>
-                          <h6 class="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>
-                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                          <a href="#" class="card-link">Card link</a>
-                          <a href="#" class="card-link">Another link</a>
-                        </div>
-                    </div>
-                </div>
             </div>
+            <div class="blank-area"></div>
         </div>
         <hr class="container-fluid" style="margin:0;">
         {% include 'nav_bar_foot.html' %}
