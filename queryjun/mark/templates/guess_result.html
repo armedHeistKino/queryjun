@@ -6,13 +6,11 @@
     <body>
         {% include 'nav_bar_head.html'%}
 
-        <div class="container-fluid">
+        <div class="container-fluid position-relative" style="height: 60vh; min-height: 700px;">
             <div class="container blank-area"></div>
-            <div class="container">
+            <div class="container position-absolute top-50 start-50 translate-middle">
                 <p style="font-size: 20px;">결과</p>
                 <hr>
-            </div>
-            <div class="container">
                 <table class="table" id="guess-result-table" guess-id="{{ guess.id }}" style="width: 75vw; min-width:500px;">
                     <tr>
                         <th>제출번호</th>
