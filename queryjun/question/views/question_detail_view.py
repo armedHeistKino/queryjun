@@ -46,4 +46,9 @@ class QuestionDetailView(TemplateView):
             :param request:
             :param question_id: Question id to determine if it is solved by signed-in member
         """
-        return True if request.user.solved_question.get(id=question_id) else False
+        try:
+            request.user.solved_question.get(id=question_id)
+        except Question.DoesNotExist:
+            return False
+        else:
+            return True
