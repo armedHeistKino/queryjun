@@ -1,27 +1,41 @@
 <html>
+    <head>
+        {% include 'head.html' %}
+    </head>
     <body>
-        <h1><a href="{% url 'main:main' %}">QueryJun</a></h1>
-        <h1>Sign up</h1>
-        <hr>
-        <form action="{% url 'member:sign-up' %}" method="post">
-            {% csrf_token %}
-            {% include "form_errors.html" %}
-            <label for="username">username</label>
-            <textarea id="username" name="username" row="1"></textarea>
-            <br>
-            <label for="password">password</label>
-            <input id="password" name="password" type="password"></input>
-            <br>
-            <label for="password-confirm">password confirm</label>
-            <input id="password-confirm" name="password_confirm" type="password"></input>
-            <br>
-            <label for="nickname">nickname</label>
-            <textarea id="nickname" name="nickname" row="1"></textarea>
-            <br>
-            <label for="self-introduce">self introduce</label>
-            <textarea id="self-introduce" name="self_introduce" row="2"></textarea>
-            <br>
-            <input type="submit" value="sign up">
-        </form>
+        {% include 'nav_bar_head.html' %}
+        <div class="container-fluid">
+            <div class="blank-area"></div>
+            <div class="container border border-1 rounded-2 bs-secondary-bg bg-body-tertiary" style="padding: 40px; width: 40vw; min-width: 400px;">
+                <p class="text-body-secondary">고지사항</p>
+                <hr>
+                <p class="text-body-secondary" style="font-size: 13;">이 박스는 원래 약관같은 걸 고지하기 위해 만들었습니다. 그런데 지금 서비스 수준으로는 법률과 규제의 영역을 걱정해야할 정도는 아니라고 생각하구요, 앞으로의 로드맵도 그렇습니다. 그래서 그냥 주저리 주저리 떠드는거구요, 혹시나를 위해 남겨놓는 그런 박스라고 보시면 됩니다.</p>
+            </div>
+            <div class="blank-area"></div>
+            <div class="container border border-1 rounded-2" style="padding: 40px; width: 40vw; min-width: 400px;">
+                <form action="{% url 'member:sign-up' %}" method="POST">
+                {% csrf_token %}
+                {% include "form_errors.html" %}
+                    <label class="form-label" for="username">아이디</label>
+                    <input class="form-control" type="text" id="username" name="username"></textarea>
+                    <br>
+                    <label class="form-label" for="password">비밀번호</label>
+                    <input class="form-control" id="password" name="password" type="password"></input>
+                    <br>
+                    <label class="form-label" for="password-confirm">비밀번호 확인</label>
+                    <input class="form-control" id="password-confirm" name="password_confirm" type="password"></input>
+                    <br>
+                    <label class="form-label" for="nickname">닉네임</label>
+                    <input class="form-control" type="text" id="nickname" name="nickname"></textarea>
+                    <br>
+                    <label class="form-label" for="self-introduce">한줄 소개</label>
+                    <textarea class="form-control" id="self-introduce" name="self_introduce" row="2"></textarea>
+                    <br>
+                    <input class="btn btn-outline-secondary" type="submit" value="회원가입">
+                </form>
+            </div>
+            <div class="blank-area"></div>
+        </div>
+        {% include 'nav_bar_foot.html' %}
     </body>
 </html>
