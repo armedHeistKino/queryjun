@@ -1,25 +1,35 @@
 <html>
+    <head>
+        {% include 'head.html' %}
+    </head>
     <body>
-        <h1><a href="{% url 'main:main' %}">QueryJun</a></h1>
-        <h1>Sign in</h1>
-        <hr>
-        {% if not user.is_authenticated %}
-        <form action="{% url 'member:sign-in' %}" method="post">
-            {% csrf_token %}
-            {% include "form_errors.html" %}
-            <label for="login_name">username</label>
-            <input type="text" name="username" id="username"></input>
-            <br>
-            <label for="password">password</label>
-            <input type="password" name="password" id="password"></input>
-            <br>
-            <input type="submit" value="sign in">
-        </form>
-        {% else %}
-        <form action="{% url 'member:sign-out' %}">
-            {% csrf_token %}
-            <button>sign out</button>
-        </form>
-        {% endif %}
+        {% include 'nav_bar_head.html' %}
+        <div class="container-fluid position-relative">
+            <div class="blank-area"></div>
+            <div class="container border border-1 rounded-2 bs-secondary-bg bg-body-tertiary" style="padding: 40px; width: 40vw; min-width: 400px;">
+                <p class="text-body-secondary">고지사항</p>
+                <hr>
+                <p class="text-body-secondary" style="font-size: 13;">이 박스가 없으면 높이가 부족해서 푸터가 중간에 떠보이거든요. 그래서 그걸 채우기 위해서 주저리 주저리 떠들고 있습니다. 무시하셔도 됩니다. 감사합니다.</p>
+            </div>
+            <div class="blank-area"></div>
+            <div class="container border border-1 rounded-2" style="padding: 40px; width: 40vw; min-width: 400px;">
+                <form action="{% url 'member:sign-in' %}" method="POST">
+                {% csrf_token %}
+                {% include "form_errors.html" %}
+                    <label class="form-label" for="username">아이디</label>
+                    <input class="form-control" type="text" name="username"></input>
+                    <br>
+                    <label class="form-label" for="username">비밀번호</label>
+                    <input class="form-control" type="password" name="password"></input>
+                    <br>
+                    <input class="btn btn-outline-secondary" type="submit" value="로그인"></input>
+                </form>
+                    <div>
+                        <a class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-25-hover" href="{% url 'member:sign-up' %}" method="GET">회원가입</a>
+                    </div>
+            </div>
+            <div class="blank-area"></div>
+        </div>
+        {% include 'nav_bar_foot.html' %}
     </body>
 </html>
