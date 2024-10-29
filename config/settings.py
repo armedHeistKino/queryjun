@@ -57,6 +57,8 @@ INSTALLED_APPS = [
     'queryjun.question',
     'queryjun.submit',
     'queryjun.mark', 
+    'queryjun.workbook',
+    'queryjun.notice',
 ]
 
 MIDDLEWARE = [
