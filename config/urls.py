@@ -24,5 +24,6 @@ urlpatterns = [
     path('question/', include('queryjun.question.urls')),
     path('submit/', include(('queryjun.submit.urls', 'submit'), namespace='submit')),
     path('mark/', include('queryjun.mark.urls')), 
-    path('workbook/', include('queryjun.workbook.urls'))
+    path('workbook/', include('queryjun.workbook.urls')), 
+    path('notice/', include('queryjun.notice.urls')), 
 ]
