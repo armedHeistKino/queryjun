@@ -1,0 +1,18 @@
+<html>
+    {% include 'head.html' %}
+    <body>
+        {% include 'nav_bar_head.html' %}
+        <div class="container-fluid">
+            <div class="blank-area"></div>
+            <div class="container">
+                <div>
+                    <p>{{ notice.title }}</p>
+                    <p>{{ notice.post_date }}</p>
+                    <hr>
+                    <p>{{ notice.body }}</p>
+                </div>
+            </div>
+        </div>
+        {% include 'nav_bar_foot.html' %}
+    </body>
+</html>
