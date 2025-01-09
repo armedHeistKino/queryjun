@@ -24,15 +24,16 @@ class MarkGuessView(FetcherVendorDeterminerMixin, views.View):
             :param **kwargs: 
         """
         guess = await Guess.objects.aget(id=kwargs['guess_id'])
-        await self.request_mark(request.user, Guess.objects.get(id=kwargs['guess_id']))
-
+        
         context = {
-            'guess_id': guess.id,
-            'guess': guess, 
-            'question': guess.question,
+            'guess': guess,
+            'question': await sync_to_async(lambda: guess.question)(),
         }
 
-        return await sync_to_async(render)(request, '../templates/guess_result.html', context)
+        task_requesting_mark = asyncio.create_task(self.request_mark(request.user, guess))
+        await task_requesting_mark
+
+        return render(request, '../templates/guess_result.html', context)
     
     async def request_mark(self, member: Member, guess: Guess):
         """
