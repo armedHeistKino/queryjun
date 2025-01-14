@@ -18,7 +18,7 @@ class GuessResultView(views.View):
             :param *args:
             :param **kwargs:
         """
-        guess_result = GuessResult.objects.get(guess_id=self.kwargs['guess_id'])
+        guess_result = GuessResult.objects.get(guess_id=kwargs['guess_id'])
 
         context = dict()
         
