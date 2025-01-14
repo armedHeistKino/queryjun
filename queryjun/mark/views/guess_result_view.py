@@ -1,6 +1,5 @@
 from django import views
 from django.http import HttpRequest, JsonResponse
-from django.shortcuts import render
 
 from ..models import ResultType
 from ..models import GuessResult
