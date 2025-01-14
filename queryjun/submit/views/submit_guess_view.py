@@ -45,7 +45,7 @@ class SubmitGuessView(views.View):
                 'vendor_option': VendorOption.objects.all()
             }
             return render(request, '../templates/submit_guess.html', context)
-        
+
         guess = Guess(
             query_guessed=form.cleaned_data.get('query_guess'),
             submit_datetime=timezone.now(),
@@ -55,4 +55,4 @@ class SubmitGuessView(views.View):
         )
         guess.save()
 
-        return redirect(resolve_url('mark:mark-guess', guess_id=guess.id ))
+        return redirect(resolve_url('mark:mark-guess', guess_id=guess.id))
