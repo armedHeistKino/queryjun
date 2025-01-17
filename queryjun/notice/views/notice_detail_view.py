@@ -10,4 +10,4 @@ class NoticeDetailView(views.View):
             'notice': Notice.objects.get(id=kwargs['notice_id']) 
         }
         
-        return render(request, '../templates/notice-detail.html', context)
+        return render(request, '../templates/notice_detail.html', context)
