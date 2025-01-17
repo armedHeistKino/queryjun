@@ -1,0 +1,23 @@
+<html>
+    {% include 'head.html' %}
+    <body>
+        {% include 'nav_bar_head.html' %}
+        <div class="container-fluid position-relative" style="height:60vh; min-height:600px;">
+            <div class="container" id="search-option-bar"></div>
+            <div class="container position-absolute top-50 start-50 translate-middle" id="notice-table">
+                <div class="list-group">
+                {% for notice in paginated_notice %}
+                <a class="list-group-item list-group-item-aciton" href="{% url 'notice:notice-detail' notice.id %}">{{ notice.title }}</a>
+                {% endfor %}
+                {% for e in empty %}
+                <span class="list-group-item">&nbsp;</span>
+                {% endfor %}
+                </div>
+            </div>
+            <div class="container" id="string-search"></div>
+            <div class="container"></div>
+        </div>
+        <hr class="container-fluid" style="margin:0;">
+        {% include 'nav_bar_foot.html' %}
+    </body>
+</html>
